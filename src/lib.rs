@@ -5,6 +5,8 @@ use std::io::{BufReader, BufRead};
 
 
 fn read_file(filename: String) -> io::Result<Vec<String>> {
+    // Reads a file as and converts it into a vector of string line by line
+
     let file = File::open(filename)?;
     let content = BufReader::new(file);
 
@@ -12,24 +14,26 @@ fn read_file(filename: String) -> io::Result<Vec<String>> {
         .lines()
         .map(|line| line.expect("Something went wrong"))
         .collect();
-    
+
     Ok(lines)
 }
 
 fn test(checker_sol: String, optimal_sol: String) -> String{
+    // Check whether the outputs are same or not. Displays the test case if the are not same.
+
     let checker_file:Vec<String> = read_file(checker_sol).expect("Something went wrong");
     let optimal_file:Vec<String> = read_file(optimal_sol).expect("Something went wrong");
 
     let fail_message = String::from("Test Failed");
-    let pass_message:String = String::from("Test Passed");
-    
+    let pass_message = String::from("Test Passed");
+
     if checker_file.len() != optimal_file.len() {
         return String::from("Test Failed");
     }
 
     for i in 0..checker_file.len() {
         if checker_file[i] != optimal_file[i] {
-            println!("Test Failed on line {}", i+1);
+            println!("Test Failed on line: {}", i+1);
             println!("Actual Output: {}", optimal_file[i]);
             println!("Expected Output: {}", checker_file[i]);
             return fail_message;
@@ -40,11 +44,8 @@ fn test(checker_sol: String, optimal_sol: String) -> String{
 }
 
 #[pyfunction]
-fn checker() -> Py<PyAny> {
-    let cwd = std::env::current_dir();
-    println!("{:?}", cwd);
-
-    let res = test(String::from("data/checker_sol.txt"), String::from("data/optimal_sol.txt"));
+fn checker(checker_sol: String, optimal_sol: String) -> Py<PyAny> {
+    let res = test(String::from(checker_sol), String::from(optimal_sol));
 
     return Python::with_gil(
         |py| {
