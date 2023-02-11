@@ -1,7 +1,4 @@
-from sys import stdin
-input = stdin.buffer.readline
-
-def solution(num):
+def run(num):
     i = 2
 
     while i*i <= num:
@@ -11,6 +8,3 @@ def solution(num):
 
     return True
 
-
-n = int(input())
-solution(n)

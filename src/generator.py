@@ -1,7 +1,5 @@
 from random import randint
-
-
-GENERATOR_PATH = "data/input.txt"
+from file_path import GENERATOR_PATH
 
 def run():
     test_cases = list()
