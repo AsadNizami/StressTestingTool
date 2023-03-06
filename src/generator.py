@@ -4,7 +4,7 @@ from file_path import GENERATOR_PATH
 def run():
     test_cases = list()
 
-    for _ in range(10):
+    for _ in range(10000):
         cases = randint(1, 10**9) % 10**5
         test_cases.append(cases)
 
