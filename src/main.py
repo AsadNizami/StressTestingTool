@@ -5,6 +5,8 @@ import solution as sol
 import bruteforce as bru
 from file_path import GENERATOR_PATH, SOLUTION_OUTPUT, BRUTEFORCE_OUTPUT
 from memory_profiler import profile
+from colorama import Fore, init
+from termcolor import colored
 
 """
 1) Use generator to generate the input
@@ -18,6 +20,7 @@ from memory_profiler import profile
     Output format: Print True if the number if prime else False
 """
 
+init()
 # Generating input
 gen.run()
 bad_output = list()
@@ -31,7 +34,8 @@ def solve():
         for line in f.readlines():
             bad_output.append(sol.run(int(line)))
     end = time()
-    print('Time taken:', str(end-start)[:5] + 's')
+
+    print(Fore.CYAN + 'Time taken:', str(end-start)[:5] + 's')
 
     with open(SOLUTION_OUTPUT, 'w') as f:
         f.writelines('\n'.join(map(str, bad_output)))
@@ -42,14 +46,17 @@ def brute_force():
         for line in f.readlines():
             good_output.append(bru.run(int(line)))
 
-
     with open(BRUTEFORCE_OUTPUT, 'w') as f:
         f.writelines('\n'.join(map(str, good_output)))
 
 # comparing both the solution
 def compare():
     ans = StressTesting.checker(BRUTEFORCE_OUTPUT, SOLUTION_OUTPUT)
-    print(ans)
+    if ans == 'Test Passed':
+        print(Fore.GREEN + ans)
+    else:
+        print(Fore.RED + ans)
+
 
 if __name__ == '__main__':
     solve()
