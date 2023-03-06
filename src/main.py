@@ -31,7 +31,7 @@ def solve():
         for line in f.readlines():
             bad_output.append(sol.run(int(line)))
     end = time()
-    print('Time taken:', str(end-start)[5] + 's')
+    print('Time taken:', str(end-start)[:5] + 's')
 
     with open(SOLUTION_OUTPUT, 'w') as f:
         f.writelines('\n'.join(map(str, bad_output)))
